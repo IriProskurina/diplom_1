@@ -1,5 +1,7 @@
 from data import TestDataBase
 import pytest
+from data import TestDataBase
+import pytest
 import allure
 from unittest.mock import MagicMock
 from praktikum.database import Database
@@ -55,4 +57,6 @@ class TestDB:
         # БД должна возвращать новый список, а не ссылку на внутренний
         buns2 = db.available_buns()
         assert len(buns2) == buns_orig_len
+
+
 

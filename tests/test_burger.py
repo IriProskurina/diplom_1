@@ -85,7 +85,6 @@ class TestBurger:
         assert burger.get_receipt() == expected_receipt
 
 
-
     def test_get_price_without_bun(self):
         burger = Burger()
         assert burger.get_price() == 0

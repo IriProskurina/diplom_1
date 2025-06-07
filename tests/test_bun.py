@@ -81,3 +81,4 @@ class TestBun:
     def test_buns_are_independent(self, bun_1, bun_2):
         bun_1.set_name("Булка 3")
         assert bun_2.get_name() == TestData.BUN_NAME_2
+

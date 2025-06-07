@@ -42,3 +42,6 @@ class TestIngredient:
     def test_ingredients_with_different_data_are_different(self, mock_sauce, mock_sauce_2):
         assert mock_sauce is not mock_sauce_2
         assert mock_sauce.get_name() != mock_sauce_2.get_name()
+
+
+
