@@ -58,6 +58,9 @@ def mock_filling_2():
 
 @pytest.fixture
 def db():
+    """
+    Фикстура для работы с тестовой базой данных
+    без вызова метода close()
+    """
     database = Database()
     yield database
-    database.close()

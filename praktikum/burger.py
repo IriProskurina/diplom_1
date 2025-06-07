@@ -1,48 +1,36 @@
-from typing import List
-
-from praktikum.bun import Bun
-from praktikum.ingredient import Ingredient
-
-
 class Burger:
-    """
-    Модель бургера.
-    Бургер состоит из булочек и ингредиентов (начинка или соус).
-    Ингредиенты можно перемещать и удалять.
-    Можно распечать чек с информацией о бургере.
-    """
-
     def __init__(self):
         self.bun = None
-        self.ingredients: List[Ingredient] = []
+        self.ingredients = []
 
-    def set_buns(self, bun: Bun):
+    def set_buns(self, bun):
         self.bun = bun
 
-    def add_ingredient(self, ingredient: Ingredient):
+    def add_ingredient(self, ingredient):
         self.ingredients.append(ingredient)
 
-    def remove_ingredient(self, index: int):
+    def remove_ingredient(self, index):
+        if index < 0 or index >= len(self.ingredients):
+            raise IndexError('Индекс ингредиента вне диапазона')
         del self.ingredients[index]
 
-    def move_ingredient(self, index: int, new_index: int):
-        self.ingredients.insert(new_index, self.ingredients.pop(index))
+    def move_ingredient(self, old_index, new_index):
+        if (old_index < 0 or old_index >= len(self.ingredients)
+                or new_index < 0 or new_index >= len(self.ingredients)):
+            raise IndexError('Индекс ингредиента вне диапазона')
+        self.ingredients.insert(new_index, self.ingredients.pop(old_index))
 
-    def get_price(self) -> float:
-        price = self.bun.get_price() * 2
+    def get_price(self):
+        if self.bun is None:
+            return 0
+        return self.bun.get_price() * 2 + sum(i.get_price() for i in self.ingredients)
 
-        for ingredient in self.ingredients:
-            price += ingredient.get_price()
-
-        return price
-
-    def get_receipt(self) -> str:
-        receipt: List[str] = [f'(==== {self.bun.get_name()} ====)']
-
-        for ingredient in self.ingredients:
-            receipt.append(f'= {str(ingredient.get_type()).lower()} {ingredient.get_name()} =')
-
-        receipt.append(f'(==== {self.bun.get_name()} ====)\n')
-        receipt.append(f'Price: {self.get_price()}')
-
-        return '\n'.join(receipt)
+    def get_receipt(self):
+        if self.bun is None:
+            return "Булка не выбрана!\n"
+        receipt = f"(==== {self.bun.get_name()} ====)\n"
+        for ing in self.ingredients:
+            receipt += f"= {ing.get_type().lower()} {ing.get_name()} =\n"
+        receipt += f"(==== {self.bun.get_name()} ====)\n\n"
+        receipt += f"Price: {self.get_price()}"  # без \n на конце!
+        return receipt
